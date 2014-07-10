@@ -9,12 +9,13 @@ gem 'sprockets', '2.11.0'
 gem 'bcrypt-ruby', '3.1.2'
 
 # Use sqlite3 as the database for Active Record
-group :developmet, :test do
+group :development, :test do
   gem 'sqlite3', '1.3.8'
   gem 'rspec-rails', '2.13.1'
   gem 'guard-rspec', '2.5.0'
   gem 'spork-rails', '4.0.0'
   gem 'guard-spork', '1.5.0'
+  gem 'launchy'
   gem 'childprocess' # may have to change to version 0.3.6
 end
 

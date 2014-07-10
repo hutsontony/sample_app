@@ -26,6 +26,10 @@ SampleApp::Application.configure do
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
+  # Force all access to the app over SSL, use Strict-Transport-Security,
+  # and use secure cookies.
+  config.force_ssl = true
+
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
