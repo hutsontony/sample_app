@@ -3,6 +3,8 @@ class UsersController < ApplicationController
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
 
+  before_action :reason_for_access, only: [:new, :create]
+
   def new
     @user = User.new
   end
@@ -13,6 +15,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def create
@@ -31,9 +34,12 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
-    flash[:success] = 'User was deleted with success.'
-    redirect_to users_path
+    user = User.find(params[:id])
+    unless current_user?(user)
+      user.destroy
+      flash[:success] = "User deleted."
+    end
+    redirect_to users_url
   end
 
 
@@ -60,17 +66,17 @@ class UsersController < ApplicationController
 
   # Before filters
 
-    def signed_in_user
-      unless signed_in?
-        store_location
-        redirect_to signin_url, notice: "Please sign in."
-      end
-    end
 
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_url) unless current_user?(@user)
     end
+
+    def reason_for_access
+      if signed_in?
+        redirect_to(root_url, notice: "your alreday logged in!")
+    end
+  end
 
     
 end
